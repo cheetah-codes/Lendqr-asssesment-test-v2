@@ -1,12 +1,14 @@
-import { useState } from "react";
+// import { useState } from "react";
 // import './App.css'
 
+import { useToast } from "./contexts/toast-context";
+
 function App() {
-  const [showModal, setShowModal] = useState(false);
+  const toast = useToast();
 
   return (
     <>
-      <div>hello react with vite and scss</div>
+      {/* <div>hello react with vite and scss</div>
       return (
       <div>
         // you can also put this in your static html file
@@ -36,7 +38,15 @@ function App() {
         <button onClick={() => setShowModal(true)}>show Modal</button>
         // rest of your app
       </div>
-      );
+      ); */}
+
+      <button
+        onClick={() =>
+          toast?.open("this feature is still in development.please hold on")
+        }
+      >
+        toast message
+      </button>
     </>
   );
 }
