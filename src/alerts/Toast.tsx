@@ -17,13 +17,17 @@ type ToastType = {
 };
 
 const Toast = ({ message, close }: ToastProps) => {
+  setTimeout(() => {
+    close();
+  }, 3000);
   return (
     <>
       <div className="toast">
         <p>{message}</p>
-        <button className="close-btn" onClick={close}>
+        <button className={`close-btn `} onClick={close}>
           {"\u274C"}
         </button>
+        <span className="timeout"></span>
       </div>
     </>
   );
@@ -32,10 +36,11 @@ const Toast = ({ message, close }: ToastProps) => {
 export const ToastProvider = ({ children }: ToastProviderProps) => {
   const [toasts, setToasts] = useState<ToastType[] | null>([]);
 
-  const open = (message: string) => {
+  const open = (message: string, type: string) => {
     const newToast = {
       id: new Date(),
       message: message,
+      type: type,
     };
     setToasts((prev: any) => [...prev, newToast]);
   };
@@ -61,6 +66,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
                 <Toast
                   key={toast?.id}
                   message={toast.message}
+                  // className={toast.type == "error" ? "error" : "" }
                   close={() => closeToast(toast.id)}
                 />
               );
