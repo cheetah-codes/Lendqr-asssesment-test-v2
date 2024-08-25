@@ -1,10 +1,10 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { authenticator } from "../../utils/firebase.config";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useToast } from "../../contexts/toast-context";
 // import withAuthLayout from "../../components/layouts/withAuthLayout";
 import { useNavigate } from "react-router-dom";
-import { AuthContextType } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 // import { AuthContext } from "../../contexts/AuthContext";
 
 // type EventProps = {
@@ -12,40 +12,19 @@ import { AuthContextType } from "../../contexts/AuthContext";
 //   handleLogin: (e: React.MouseEvent<HTMLFormElement>) => void;
 // } & React.ComponentPropsWithRef<"form">;
 
-type AuthPropType = {
-  auth: AuthContextType | null;
-};
+// type AuthPropType = {
+//   auth: AuthContextType | null;
+// };
 
 type Input = "text" | "password";
 
-const Login = ({ auth }: AuthPropType) => {
-  // const { user, setIsAuthenticated } = auth;
+const Login = () => {
+  const auth = useContext(AuthContext);
   console.log(auth);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // const navigate = useNavigate();
-  // const [loading, setLoading] = useState(false);
-
-  // useEffect(() => {
-  //   authCheck();
-  // }, [authenticator]);
-
-  // const authCheck = onAuthStateChanged(authenticator, (user) => {
-  //   if (user) {
-  //     setLoading(false);
-  //   } else {
-  //     console.log("unauthorized");
-  //     navigate("/Login");
-  //   }
-  // });
-
-  // if (loading) {
-  //   return <div>loading...</div>;
-  // }
-  // const [inputType,dispatch] = useReducer(Reducer,"text");
-
-  const [inputType, setInputType] = useState<Input>("text");
+  const [inputType, setInputType] = useState<Input>("password");
 
   const toast = useToast();
 
@@ -71,14 +50,22 @@ const Login = ({ auth }: AuthPropType) => {
       current.password.value
     )
       .then(() => {
-        // setIsAuthenticated(true);
+        auth.setIsAuthenticated(true);
         toast?.open("successfully logged in.Welcome", "success");
-        // navigate("/dashboard");
+        navigate("/home");
       })
       .catch((err) => {
         toast?.open(err.message, "error");
       });
   };
+
+  // onAuthStateChanged(authenticator, (user) => {
+  //   if (user) {
+  //     const { email } = user;
+  //     auth?.setUser({ ...auth?.user, email: email })!;
+  //     // auth?.setUser({ email: email });
+  //   }
+  // });
 
   ////////////////////
 
