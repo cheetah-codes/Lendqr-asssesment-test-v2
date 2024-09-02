@@ -48,6 +48,7 @@ const MainNavbar = () => {
             />
           </button>
         </div>
+
         <div className="user-section">
           <span>Docs</span>
           <FontAwesomeIcon icon={faBell} />
