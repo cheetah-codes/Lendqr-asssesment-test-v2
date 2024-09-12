@@ -1,13 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faSearch } from "@fortawesome/free-solid-svg-icons";
-import Useravatar from "../../assets/lendsqr-avatar.png";
-import Logo from "../../assets/lendsqr.png";
+import Useravatar from "../../assets/avatar.png";
+import Logo from "../../assets/logo.png";
 import "./nav.scss";
 import { faBell } from "@fortawesome/free-solid-svg-icons/faBell";
+import { useContext, useRef, useState } from "react";
+import { SearchContext } from "../../contexts/SearchContext";
 
 const MainNavbar = () => {
   const allowedProps = { attribute: "form-control" };
+  const searchRef = useRef(null);
+  // const [searchval, setSearchVal] = useState();
+  const { searchval, setSearchVal } = useContext(SearchContext);
   const navigate = useNavigate();
   return (
     <>
@@ -38,6 +43,8 @@ const MainNavbar = () => {
               placeholder="Search for anything"
               {...allowedProps}
               spellCheck="false"
+              onChange={(e) => setSearchVal(e.target.value)}
+              ref={searchRef}
             />
           </div>
           <button>
